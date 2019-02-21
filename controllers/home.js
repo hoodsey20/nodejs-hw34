@@ -1,7 +1,6 @@
 const db = require('../db/messages');
 
 const get = (req, res) => {
-  console.log('req.flash', req.flash('info'));
   res.render('pages/index', { msgsemail: req.flash('info') });
 };
 
