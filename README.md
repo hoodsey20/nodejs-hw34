@@ -1,5 +1,4 @@
 # Домашнее задание курса Node.js (3 и 4)
-![Скриншот проекта](https://loftschool.com/uploads/course_logos/nodejs.svg?v=1513152963369)
 
 >Для запуска:
 
