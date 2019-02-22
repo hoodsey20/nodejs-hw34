@@ -4,7 +4,7 @@
   "author": "krabaton",
   "license": "ISC",
   "scripts": {
-    "server": "nodemon app.js",
+    "server": "npm run build && nodemon app.js",
     "start": "set NODE_ENV=development&& gulp",
     "build": "set NODE_ENV=production&& gulp build"
   },
@@ -42,6 +42,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.4",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "jquery": "^3.3.1",

@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -11,6 +12,8 @@ app.set('view engine', 'pug');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser('keyboard cat'));
+
 app.use(session({
   secret: 'loftschool',
   cookie: { maxAge: 60000 },

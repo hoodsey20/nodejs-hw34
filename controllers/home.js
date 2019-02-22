@@ -5,11 +5,8 @@ const get = (req, res) => {
 };
 
 const post = (req, res) => {
-  let msg = 'Ваше письмо успешно отправлено';
-
   try {
     const { name, email, message } = req.body;
-
     db.get('messages')
       .push({ name, email, message })
       .write();
@@ -17,12 +14,12 @@ const post = (req, res) => {
     db.update('count', n => n + 1)
       .write();
 
+    req.flash('info', 'Ваше письмо успешно отправлено');
+    res.redirect('/');
   } catch (error) {
-    throw error;
+    req.flash('info', 'Произошла ошибка, попробуйте позже');
+    res.redirect('/');
   }
-
-  req.flash('info', msg);
-  res.redirect('/');
 };
 
 module.exports = {
