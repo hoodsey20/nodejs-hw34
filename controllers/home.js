@@ -15,10 +15,10 @@ const post = (req, res) => {
       .write();
 
     req.flash('info', 'Ваше письмо успешно отправлено');
-    res.redirect('/');
+    res.redirect(301, '/');
   } catch (error) {
     req.flash('info', 'Произошла ошибка, попробуйте позже');
-    res.redirect('/');
+    res.location(301, '/');
   }
 };
 

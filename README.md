@@ -2,9 +2,9 @@
 
 >Для запуска:
 
-0. git clone https://krabaton@bitbucket.org/krabaton/nodejs-hw34.git
+0. git clone
 1. npm i (yarn)
-2. npm start
+2. npm server
 
 
 >Для сборки проекта под Express(Koa.js) (папка server):

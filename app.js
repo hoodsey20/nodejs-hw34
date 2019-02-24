@@ -16,7 +16,11 @@ app.use(cookieParser('keyboard cat'));
 
 app.use(session({
   secret: 'loftschool',
-  cookie: { maxAge: 60000 },
+  key: 'sessionkey',
+  cookie: {
+    path: '/',
+    maxAge: 60000
+  },
   resave: false,
   saveUninitialized: false,
 }));
