@@ -72,7 +72,27 @@ const validation = (fields, files) => {
 
 const postSkills = (req, res) => {
   try {
-    skillsdb.set('skills', req.body)
+    const { age, concerts, cities, years } = req.body;
+    const data = [
+      {
+        'number': age,
+        'text': 'Возраст начала занятий на скрипке'
+      },
+      {
+        'number': concerts,
+        'text': 'Концертов отыграл'
+      },
+      {
+        'number': cities,
+        'text': 'Максимальное число городов в туре'
+      },
+      {
+        'number': years,
+        'text': 'Лет на сцене в качестве скрипача'
+      }
+    ];
+
+    skillsdb.set('skills', data)
       .write();
     req.flash('skills', 'Данные успешно обновлены');
     res.redirect(301, '/admin');

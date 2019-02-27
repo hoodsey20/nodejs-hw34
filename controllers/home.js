@@ -1,7 +1,13 @@
 const db = require('../db/messages');
+const skillsdb = require('../db/skills');
 
 const get = (req, res) => {
-  res.render('pages/index', { msgsemail: req.flash('info') });
+  const skills = skillsdb.get('skills').value();
+
+  res.render('pages/index', {
+    msgsemail: req.flash('info'),
+    skills
+  });
 };
 
 const post = (req, res) => {
