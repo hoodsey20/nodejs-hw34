@@ -47,7 +47,7 @@ const postUpload = (req, res, next) => {
       try {
         const picPath = path.relative('./public', fileName);
         productsdb.get('products')
-          .push({ name, price, image: picPath })
+          .push({ name, price, src: picPath })
           .write();
         req.flash('msgfile', 'Фото загружено');
         res.redirect(301, '/admin');

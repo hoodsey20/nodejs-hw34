@@ -3,6 +3,7 @@ section.product
     .product__subtitle.subtitle Товары от студии Архипова
     h2.product__title.title Мой личный бренд
     ul.product__list
+      - if (additionalProducts && additionalProducts.length) products = products.concat(additionalProducts)
       each item in products
         li.product__item
           img(src=`${item.src}`).product__img

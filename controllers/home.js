@@ -1,12 +1,15 @@
 const db = require('../db/messages');
 const skillsdb = require('../db/skills');
+const productsdb = require('../db/products');
 
 const get = (req, res) => {
   const skills = skillsdb.get('skills').value();
+  const additionalProducts = productsdb.get('products').value();
 
   res.render('pages/index', {
     msgsemail: req.flash('info'),
-    skills
+    skills,
+    additionalProducts
   });
 };
 

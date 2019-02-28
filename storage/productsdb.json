@@ -1,4 +1,14 @@
 {
   "products": [
+    {
+      "name": "Машина",
+      "price": "1345",
+      "src": "upload\\pexels-photo-707046.jpeg"
+    },
+    {
+      "name": "Тачка",
+      "price": "2141255",
+      "src": "upload\\pexels-photo-170811.jpeg"
+    }
   ]
 }
