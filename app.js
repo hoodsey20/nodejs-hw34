@@ -19,7 +19,7 @@ app.use(session({
   key: 'sessionkey',
   cookie: {
     path: '/',
-    maxAge: 60000
+    maxAge: 60000,
   },
   resave: false,
   saveUninitialized: false,
