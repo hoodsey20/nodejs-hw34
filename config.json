@@ -1,0 +1,14 @@
+{
+  "mail": {
+    "subject": "Сообщение с сайта",
+    "smtp": {
+      "host": "smtp.gmail.com",
+      "port": 465,
+      "secure": true,
+      "auth": {
+        "user": "hoodsey20dev@gmail.com",
+        "pass": "t_fI_MzUdxeGZte"
+      }
+    }
+  }
+}
