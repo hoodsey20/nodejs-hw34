@@ -4,6 +4,8 @@ const koaStatic = require('koa-static');
 const session = require('koa-session');
 const Pug = require('koa-pug');
 const fs = require('fs');
+const flash = require('koa-flash-simple');
+
 const pug = new Pug({
   viewPath: './source/template',
   pretty: false,
@@ -13,27 +15,28 @@ const pug = new Pug({
 });
 const config = require('./config');
 
-app.use(koaStatic('./public'));
+
+const router = require('./koa/routes');
+
+app
+  .use(session(config.session, app))
+  .use(flash())
+  .use(router.routes())
+  .use(router.allowedMethods())
+  .use(koaStatic('./public'));
+
+const port = process.env.PORT || 3000;
 
 const errorHandler = require('./koa/libs/error');
 
 app.use(errorHandler);
 
 app.on('error', (err, ctx) => {
-  ctx.render('error', {
+  ctx.render('pages/error', {
     status: ctx.response.status,
     error: ctx.response.message,
   });
 });
-
-const router = require('./koa/routes');
-
-app
-  .use(session(config.session, app))
-  .use(router.routes())
-  .use(router.allowedMethods());
-
-const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   if (!fs.existsSync(config.upload)) {
