@@ -1,5 +1,8 @@
 const fs = require('fs');
 const path = require('path');
+const util = require('util');
+const rename = util.promisify(fs.rename);
+const unlink = util.promisify(fs.unlink);
 
 const skillsdb = require('../../db/skills');
 const productsdb = require('../../db/products');
@@ -52,25 +55,48 @@ const postSkills = (ctx, next) => {
 };
 
 const postUpload = async (ctx, next) => {
-  const responseErr = validation(ctx.request.body, ctx.request.files);
-  const { name, price } = ctx.request.body;
-  const { name: fileName, size, path: filePath } = ctx.request.files.file;
+  try {
+    const { name, price } = ctx.request.body;
+    const { photo } = ctx.request.files;
+    const responseErr = validation(name, price, photo);
+    const { name: originFileName, size, path: filePath} = photo;
 
-  if (responseErr) {
-    await unlink(filePath);
-    console.log('responseErr', responseErr);
-  } else {
-    console.log('no error');
+    if (responseErr.err) {
+      await unlink(filePath);
+      ctx.flash.set({ msgfile: 'Неверные данные товара или файл изображения'});
+      ctx.status = 301;
+      ctx.redirect('/admin');
+      return;
+    }
+
+    let fileName = path.join(process.cwd(), 'public', 'upload', originFileName);
+    const errUpload = await rename(filePath, fileName);
+
+    if (errUpload) throw errUpload;
+
+    const picPath = path.relative('./public', fileName);
+
+    productsdb.get('products')
+      .push({ name, price, src: picPath })
+      .write();
+
+    ctx.flash.set({ msgfile: 'Фото загружено'});
+    ctx.status = 301;
+    ctx.redirect('/admin');
+
+  } catch (error) {
+    ctx.flash.set({ msgfile: 'Произошла ошибка, попробуйте позже'});
+    ctx.status = 301;
+    ctx.redirect('/admin');
   }
-  // TODO: реализовать загрузку товара
 };
 
-const validation = (fields, files) => {
-  if (files.photo.name === '' || files.photo.size === 0) {
+const validation = (name, price, photo) => {
+  if (photo.name === '' || photo.size === 0) {
     return { status: 'Не загружена картинка!', err: true };
   }
-  if (!fields.name) return { status: 'Не указано описание картинки!', err: true };
-  if (!fields.price) return { status: 'Не указана цена товара', err: true };
+  if (!name) return { status: 'Не указано описание картинки!', err: true };
+  if (!price) return { status: 'Не указана цена товара', err: true };
 
   return { status: 'Ok', err: false };
 };

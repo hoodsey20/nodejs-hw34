@@ -13,14 +13,16 @@ const post = (ctx, next) => {
 
     if (user.login === email && psw.validPassword(user, password)) {
       ctx.session.isAdmin = true;
-      ctx.flash.set(`Привет, ${email}! Вы успешно залогинились.`);
       ctx.status = 301;
-      ctx.redirect('/login');
-    } else {
-      ctx.flash.set('Такого сочетания юзера и пароля нет в нашей базе данных');
-      ctx.status = 301;
-      ctx.redirect('/login');
+      ctx.redirect('/admin');
+      return;
     }
+
+    ctx.session.isAdmin = false;
+    ctx.flash.set('Такого сочетания юзера и пароля нет в нашей базе данных');
+    ctx.status = 301;
+    ctx.redirect('/login');
+
   } catch (error) {
     ctx.flash.set('Произошла ошибка, попробуйте позже');
     ctx.status = 301;
